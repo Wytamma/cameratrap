@@ -13,7 +13,7 @@ $ git clone https://github.com/Wytamma/cameratrap && cd cameratrap
 Run the setup script.
 
 ```bash
-$ bash setup 
+$ bash setup.sh
 ```
 
 ## Submit jobs 
