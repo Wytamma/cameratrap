@@ -12,20 +12,25 @@ import sys
 import json
 
 
+def make_batch_json(folder, batch_size=200):
+    print(folder)
+    images = [f for f in glob(folder + "/*") if os.path.isfile(f)]
+    print(len(images))
+    batches = [images[i:i + batch_size] for i in range(0, len(images), batch_size)]
+    print([len(x) for x in batches])
+    out_dir = folder.replace("/", "_")
+    if out_dir[-1] == "_":
+        out_dir = out_dir[:-1]
+    for i, batch in enumerate(batches):
+        with open(f"{out_dir}/batch_{i}.json", 'w') as f:
+            json.dump(batch, f)
+
 def submit_job(directory, mem="12gb", ncores="1"):
-    image_dir = directory.replace(" ", "\ ")  # correctly format spaces in path i.e \
-    basename = os.path.basename(directory)
-    cmd = f"""set -e;
-    module load anaconda3/2019.10; 
-    source ~/.bashrc;
-    conda activate cameratraps-detector; 
-    PYTHONPATH=/home/jc449852/CameraTraps:/home/jc449852/ai4eutils python CameraTraps/detection/run_tf_detector_batch.py CameraTraps/megadetector_v4_1_0.pb "{image_dir}" "{image_dir}/{basename}.json" --recursive"""
-    job_name = basename.replace(" ", "_")
-    print(f"Submitting Job {job_name}")
-    os.system(f'echo "{cmd}" | qsub -N {job_name} -l walltime=30:00:00 -l mem={mem} -l ncpus={ncores}')
+    make_batch_json()
+
 
 def submit_batch_job(directory, mem="12gb", ncores="1"):
-    json_files = [f for f in glob(directory + "/*") if os.path.isfile(f)]
+    json_files = [f for f in glob(directory + "/*.json")]
 
     for json_file in json_files:
         basename = os.path.basename(json_file)
@@ -33,7 +38,7 @@ def submit_batch_job(directory, mem="12gb", ncores="1"):
         module load anaconda3/2019.10; 
         source ~/.bashrc;
         conda activate cameratraps-detector; 
-        PYTHONPATH=/home/jc449852/CameraTraps:/home/jc449852/ai4eutils python CameraTraps/detection/run_tf_detector_batch.py CameraTraps/megadetector_v4_1_0.pb "{json_file}" "{directory}/results_{basename}" """
+        PYTHONPATH=/home/jc449852/CameraTraps:/home/jc449852/ai4eutils python /home/jc449852/CameraTraps/detection/run_tf_detector_batch.py /home/jc449852/CameraTraps/megadetector_v4_1_0.pb "{json_file}" "{directory}/results_{basename}" """
         job_name = basename.replace(" ", "_")
         print(f"Submitting Job {job_name}")
         os.system(f'echo "{cmd}" | qsub -N {job_name} -l walltime=1:00:00 -l mem={mem} -l ncpus={ncores}')
