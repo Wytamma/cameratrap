@@ -77,7 +77,7 @@ if __name__ == "__main__":
         "--join-json",
         default=False,
         action="store_true",
-        help="Look for json files in the subdirectories and join them.",
+        help="Combine the batch results into a single file.",
     )
     parser.add_argument(
         "--batch-size",
@@ -89,25 +89,25 @@ if __name__ == "__main__":
         "--recursive",
         default=False,
         action="store_true",
-        help="Run recursively on a directory of directorys.",
+        help="Run recursively on a directory of directories.",
     )
     parser.add_argument(
         "--ncores",
         default="1",
         type=str,
-        help="Number of cores to use.",
+        help="Number of cores to allocate.",
     )
     parser.add_argument(
         "--mem",
         default="12gb",
         type=str,
-        help="Amount of memory to use.",
+        help="Amount of memory to allocate.",
     )
     parser.add_argument(
         "--walltime",
         default="1:00:00",
         type=str,
-        help="Amount of memory to use.",
+        help="Amount of time to allocate.",
     )
     args = parser.parse_args()
     if args.join_json:

@@ -28,6 +28,12 @@ Increase the amount of cores to speed up the analysis.
 $ python cameratrap.py --ncores 12 /path/to/image/directory
 ```
 
+See other options 
+
+```
+$ python cameratrap.py --help
+```
+
 ## Process results 
 
 Once the analysis is finshed you can join the batched results into a single file.
