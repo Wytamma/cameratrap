@@ -1,0 +1,173 @@
+{
+ "images": [
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04180121.JPG",
+   "max_detection_conf": 0.998,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.998,
+     "bbox": [
+      0.7559,
+      0.4049,
+      0.242,
+      0.247
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04180122.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.999,
+     "bbox": [
+      0.7327,
+      0.4089,
+      0.2659,
+      0.2249
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04180123.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.999,
+     "bbox": [
+      0.7181,
+      0.4112,
+      0.2796,
+      0.2205
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04180124.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.999,
+     "bbox": [
+      0.5558,
+      0.4515,
+      0.2794,
+      0.263
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04180125.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.999,
+     "bbox": [
+      0.5603,
+      0.451,
+      0.2801,
+      0.265
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04180126.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.999,
+     "bbox": [
+      0.5618,
+      0.4505,
+      0.2744,
+      0.2654
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04180127.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.999,
+     "bbox": [
+      0.5378,
+      0.4672,
+      0.2696,
+      0.2688
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04180128.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.999,
+     "bbox": [
+      0.5384,
+      0.4675,
+      0.2688,
+      0.2684
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04180129.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.999,
+     "bbox": [
+      0.536,
+      0.4685,
+      0.271,
+      0.2625
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04180130.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.999,
+     "bbox": [
+      0.6305,
+      0.462,
+      0.1706,
+      0.2642
+     ]
+    }
+   ]
+  }
+ ],
+ "detection_categories": {
+  "1": "animal",
+  "2": "person",
+  "3": "vehicle"
+ },
+ "info": {
+  "detection_completion_time": "2022-04-06 12:45:32",
+  "format_version": "1.0"
+ }
+}

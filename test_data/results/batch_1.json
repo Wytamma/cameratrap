@@ -1,0 +1,128 @@
+{
+ "images": [
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04170101.JPG",
+   "max_detection_conf": 0,
+   "detections": []
+  },
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04170102.JPG",
+   "max_detection_conf": 0,
+   "detections": []
+  },
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04180103.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.999,
+     "bbox": [
+      0.6109,
+      0.7065,
+      0.387,
+      0.2539
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04180104.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.999,
+     "bbox": [
+      0.6094,
+      0.7051,
+      0.3892,
+      0.2553
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04180105.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.999,
+     "bbox": [
+      0.6094,
+      0.7017,
+      0.3889,
+      0.2585
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04180106.JPG",
+   "max_detection_conf": 0,
+   "detections": []
+  },
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04180107.JPG",
+   "max_detection_conf": 0,
+   "detections": []
+  },
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04180108.JPG",
+   "max_detection_conf": 0,
+   "detections": []
+  },
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04180109.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.999,
+     "bbox": [
+      0.4184,
+      0.7943,
+      0.1577,
+      0.1637
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/home/jc449852/.wytamma/cameratrap/test_data/04180110.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.999,
+     "bbox": [
+      0.4309,
+      0.7964,
+      0.1459,
+      0.1626
+     ]
+    },
+    {
+     "category": "1",
+     "conf": 0.128,
+     "bbox": [
+      0.2932,
+      0.7987,
+      0.2754,
+      0.1608
+     ]
+    }
+   ]
+  }
+ ],
+ "detection_categories": {
+  "1": "animal",
+  "2": "person",
+  "3": "vehicle"
+ },
+ "info": {
+  "detection_completion_time": "2022-04-06 12:45:14",
+  "format_version": "1.0"
+ }
+}

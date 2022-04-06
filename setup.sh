@@ -5,4 +5,4 @@ set -e
 [ ! -d "./ai4eutils" ] && git clone https://github.com/microsoft/ai4eutils/
 [ ! -f "./md_v4.1.0.pb" ] && wget -O ./md_v4.1.0.pb https://lilablobssc.blob.core.windows.net/models/camera_traps/megadetector/md_v4.1.0/md_v4.1.0.pb
 
-conda env create --file environment-detector.yml
+conda env create --file environment.yml
