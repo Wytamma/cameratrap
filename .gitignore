@@ -1,1 +1,4 @@
-md_v4.1.0.pb
+*.pb
+*.pt
+*.json
+test_data/*

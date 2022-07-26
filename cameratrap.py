@@ -12,7 +12,7 @@ import json
 from pathlib import Path
 
 
-def make_batch_json(directory, batch_size=200):
+def make_batch_json(directory, batch_size=100):
     images = [os.path.join(os.getcwd(), f) for f in glob(directory + "/*") if os.path.isfile(f) and not f.endswith(".json")]
     batches = [images[i:i + batch_size] for i in range(0, len(images), batch_size)]
     print(f"Creating {len(batches)} batches ({[len(x) for x in batches]})")
@@ -30,17 +30,27 @@ def submit_batch_jobs(directory, mem="12gb", ncores="1", walltime="1:00:00"):
     for json_file in batch_files:
         submit_batch_job(json_file, mem=mem, ncores=ncores, walltime=walltime)
         
-def submit_batch_job(json_file, mem="12gb", ncores="1", walltime="1:00:00"):
+def submit_batch_job(json_file, mem="12gb", ncores="1", walltime="1:00:00", model="5a"):
+    models = {
+        '5a':"md_v5a.0.0.pt",
+        '5b':"md_v5b.0.0.pt",
+        '4':"md_v4.1.0.pb"
+    }
     PATH = Path(__file__).parent.absolute()
     directory = str(Path(json_file).parent.parent)
     basename = os.path.basename(json_file)
     if directory.endswith('/'):
         directory = directory[:-1]
     jobname = f'{directory.split("/")[-1]}_{basename}'
+    THREADS = int(ncores)
     cmd = f"""set -e;
     source ~/.bashrc;
     conda activate cameratrap;
-    PYTHONPATH={PATH}/CameraTraps:{PATH}/ai4eutils python {PATH}/CameraTraps/detection/run_tf_detector_batch.py {PATH}/md_v4.1.0.pb {json_file} {os.path.join(os.getcwd(), directory)}/results/{basename}"""
+    echo Processing batch {json_file};
+    export OMP_NUM_THREADS={THREADS};
+    export TF_NUM_INTEROP_THREADS={THREADS};
+    export TF_NUM_INTRAOP_THREADS={THREADS};
+    PYTHONPATH=$PYTHONPATH:{PATH}/CameraTraps:{PATH}/ai4eutils:{PATH}/yolov5 python {PATH}/CameraTraps/detection/run_tf_detector_batch.py {PATH}/{models[model]} {json_file} {os.path.join(os.getcwd(), directory)}/results/{basename}"""
     print(f"Submitting Job {basename} ({directory})")
     os.system(f'echo "{cmd}" | qsub -j oe -N {jobname} -l walltime={walltime} -l mem={mem} -l ncpus={ncores}')
 
@@ -52,7 +62,9 @@ def get_directories_from_path(directory):
 
 
 def combine_data(directory):
-    json_files = [f for f in glob(directory + "/results/*")]
+    json_files = [f for f in glob(directory + "/*/PHOTO/results/*.json")]
+    if not len(json_files):
+        raise ValueError('No results files found')
     combined_data = []
     for json_file in json_files:
         with open(json_file) as f:
@@ -60,7 +72,12 @@ def combine_data(directory):
         print(f"{json_file} - {len(data['images'])}")
         combined_data += data["images"]
     # use 'info' and 'detection_categories' from last image_dir
-    data["images"] = combined_data
+
+    for image in combined_data:
+        image['file'] = '/'.join(image['file'].split('/')[-3:])
+
+    data['images'] = combined_data
+    # "file": "/home/jc807286/camera_trapping/Duval/Trip1/Duval_April2021_wetA_camera15/PHOTO/IM_00018.JPG"
     if directory.endswith('/'):
         directory = directory[:-1]
     filename = f"{directory.replace('/', '_')}_results_combined.json"
@@ -109,15 +126,21 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--mem",
-        default="12gb",
+        default="8gb",
         type=str,
         help="Amount of memory to allocate.",
     )
     parser.add_argument(
         "--walltime",
-        default="1:00:00",
+        default="2:00:00",
         type=str,
         help="Amount of time to allocate.",
+    )
+    parser.add_argument(
+        "--model",
+        default="5a",
+        type=str,
+        help="The model to use. 5a, 5b, or 4",
     )
     args = parser.parse_args()
     if args.join_json:
