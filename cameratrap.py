@@ -23,14 +23,14 @@ def make_batch_json(directory, batch_size=100):
             json.dump(batch, f)
 
 
-def submit_batch_jobs(directory, mem="12gb", ncores="1", walltime="1:00:00"):
+def submit_batch_jobs(directory, mem="12gb", ncores="1", walltime="1:00:00", model="5a"):
     if not os.path.exists(f"{directory}/results"):
         os.mkdir(f"{directory}/results")
     batch_files = [os.path.join(os.getcwd(), f) for f in glob(directory + "/batches/batch_*.json")]
     for json_file in batch_files:
-        submit_batch_job(json_file, mem=mem, ncores=ncores, walltime=walltime)
+        submit_batch_job(json_file, mem=mem, ncores=ncores, walltime=walltime, model=model)
         
-def submit_batch_job(json_file, mem="12gb", ncores="1", walltime="1:00:00", model="5a"):
+def submit_batch_job(json_file, mem="12gb", ncores="1", walltime="1:00:00", model="5a", no_q=False):
     models = {
         '5a':"md_v5a.0.0.pt",
         '5b':"md_v5b.0.0.pt",
@@ -45,14 +45,17 @@ def submit_batch_job(json_file, mem="12gb", ncores="1", walltime="1:00:00", mode
     THREADS = int(ncores)
     cmd = f"""set -e;
     source ~/.bashrc;
-    conda activate cameratrap;
+    conda activate cameratraps-detector;
     echo Processing batch {json_file};
     export OMP_NUM_THREADS={THREADS};
     export TF_NUM_INTEROP_THREADS={THREADS};
     export TF_NUM_INTRAOP_THREADS={THREADS};
-    PYTHONPATH=$PYTHONPATH:{PATH}/CameraTraps:{PATH}/ai4eutils:{PATH}/yolov5 python {PATH}/CameraTraps/detection/run_tf_detector_batch.py {PATH}/{models[model]} {json_file} {os.path.join(os.getcwd(), directory)}/results/{basename}"""
+    PYTHONPATH=$PYTHONPATH:{PATH}/CameraTraps:{PATH}/ai4eutils:{PATH}/yolov5 python {PATH}/CameraTraps/detection/run_detector_batch.py {PATH}/{models[model]} {json_file} {os.path.join(os.getcwd(), directory)}/results/{basename}"""
     print(f"Submitting Job {basename} ({directory})")
-    os.system(f'echo "{cmd}" | qsub -j oe -N {jobname} -l walltime={walltime} -l mem={mem} -l ncpus={ncores}')
+    if no_q:
+        os.system(cmd)
+    else:
+        os.system(f'echo "{cmd}" | qsub -j oe -N {jobname} -l walltime={walltime} -l mem={mem} -l ncpus={ncores}')
 
 
 def get_directories_from_path(directory):
@@ -146,7 +149,7 @@ if __name__ == "__main__":
     if args.join_json:
         combine_data(args.directory)
     elif args.directory.endswith(".json"):
-        submit_batch_job(json_file=args.directory, mem=args.mem, ncores=args.ncores, walltime=args.walltime)
+        submit_batch_job(json_file=args.directory, mem=args.mem, ncores=args.ncores, walltime=args.walltime, model=args.model)
     elif args.recursive:
         dirs = get_directories_from_path(args.directory)
         if (
@@ -158,11 +161,11 @@ if __name__ == "__main__":
             for image_dir in dirs:
                 make_batch_json(directory=image_dir, batch_size=args.batch_size)
                 if not args.dry:
-                    submit_batch_jobs(directory=image_dir, mem=args.mem, ncores=args.ncores, walltime=args.walltime)
+                    submit_batch_jobs(directory=image_dir, mem=args.mem, ncores=args.ncores, walltime=args.walltime, model=args.model)
         else:
             print("Aborted!")
     else:
         make_batch_json(directory=args.directory, batch_size=args.batch_size)
         if not args.dry:
-            submit_batch_jobs(directory=args.directory,  mem=args.mem, ncores=args.ncores,  walltime=args.walltime)
+            submit_batch_jobs(directory=args.directory,  mem=args.mem, ncores=args.ncores,  walltime=args.walltime, model=args.model)
         

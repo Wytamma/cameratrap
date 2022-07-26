@@ -11,4 +11,8 @@ cd ..
 [ ! -f "./md_v5a.0.0.pt" ] && wget -O ./md_v5a.0.0.pt https://github.com/microsoft/CameraTraps/releases/download/v5.0/md_v5a.0.0.pt
 [ ! -f "./md_v5b.0.0.pt" ] && wget -O ./md_v5b.0.0.pt https://github.com/microsoft/CameraTraps/releases/download/v5.0/md_v5b.0.0.pt
 
+# if you have mamba use that because conda takes ages
 conda env create --file CameraTraps/environment-detector.yml
+
+# if you want to use the v4 model 
+# conda activate cameratraps-detector && pip install tensorflow
