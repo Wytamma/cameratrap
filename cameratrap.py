@@ -65,7 +65,9 @@ def get_directories_from_path(directory):
 
 
 def combine_data(directory):
-    json_files = [f for f in glob(directory + "/*/PHOTO/results/*.json")]
+    if '*.json' not in directory:
+        directory = directory + "/*/*/results/*.json"
+    json_files = [f for f in glob(directory)]
     if not len(json_files):
         raise ValueError('No results files found')
     combined_data = []
@@ -81,6 +83,7 @@ def combine_data(directory):
 
     data['images'] = combined_data
     # "file": "/home/jc807286/camera_trapping/Duval/Trip1/Duval_April2021_wetA_camera15/PHOTO/IM_00018.JPG"
+    directory = directory.split('*')[0]
     if directory.endswith('/'):
         directory = directory[:-1]
     filename = f"{directory.replace('/', '_')}_results_combined.json"
